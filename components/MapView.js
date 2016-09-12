@@ -238,7 +238,7 @@ const propTypes = {
    *
    * @platform ios
    */
-  minDelta: PropTypes.number
+  minDelta: PropTypes.number,
 
   /**
   * Maximum zoom.
