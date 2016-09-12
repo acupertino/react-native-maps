@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.view.GestureDetector;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -66,6 +67,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
 
     private LatLngBounds boundsToMove;
     private boolean showUserLocation = false;
+    private boolean showUserLocationButton = false;
     private boolean isMonitoringRegion = false;
     private boolean isTouchDown = false;
     private boolean handlePanDrag = false;
@@ -82,7 +84,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     private final Map<Polyline, AirMapPolyline> polylineMap = new HashMap<>();
     private final Map<Polygon, AirMapPolygon> polygonMap = new HashMap<>();
     private final Map<Circle, AirMapCircle> circleMap = new HashMap<>();
-    private final Map<TileOverlay, AirMapUrlTile> tileMap = new HashMap<>();
+    private final HashMap<TileOverlay, AirMapUrlTile> tileMap = new HashMap<>();
 
     private final ScaleGestureDetector scaleDetector;
     private final GestureDetectorCompat gestureDetector;
@@ -307,7 +309,11 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         if (!paused) {
             onPause();
         }
-        onDestroy();
+        try {
+            onDestroy();
+        } catch (Exception e) {
+            Log.e("AirMapView", e.getMessage());
+        }
     }
 
     public void setRegion(ReadableMap region) {
