@@ -1,18 +1,11 @@
-
-var React = require('react-native');
-var {
+import React, { PropTypes } from 'react';
+import {
   View,
-  NativeMethodsMixin,
   requireNativeComponent,
-  StyleSheet,
-  PropTypes,
-} = React;
+} from 'react-native';
 
-var MapUrlTile = React.createClass({
-  mixins: [NativeMethodsMixin],
-
-  propTypes: {
-    ...View.propTypes,
+const propTypes = {
+  ...View.propTypes,
 
     /**
      * The url template of the tile server. The patterns {x} {y} {z} will be replaced at runtime
@@ -28,17 +21,20 @@ var MapUrlTile = React.createClass({
      * @platform android
      */
     zIndex: PropTypes.number,
-  },
+};
 
-  render: function() {
+class MapUrlTile extends React.Component {
+  render() {
     return (
       <AIRMapUrlTile
         {...this.props}
       />
     );
-  },
-});
+  }
+}
 
-var AIRMapUrlTile = requireNativeComponent('AIRMapUrlTile', MapUrlTile);
+MapUrlTile.propTypes = propTypes;
+
+const AIRMapUrlTile = requireNativeComponent('AIRMapUrlTile', MapUrlTile);
 
 module.exports = MapUrlTile;

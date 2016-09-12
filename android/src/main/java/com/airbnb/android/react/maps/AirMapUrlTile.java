@@ -78,7 +78,7 @@ public class AirMapUrlTile extends AirMapFeature {
     private TileOverlayOptions createTileOverlayOptions() {
         TileOverlayOptions options = new TileOverlayOptions();
         options.zIndex(zIndex);
-        this.tileProvider = new AIRMapUrlTileProvider(256, 256, this.urlTemplate);
+        this.tileProvider = new AIRMapUrlTileProvider(512, 512, this.urlTemplate);
         options.tileProvider(this.tileProvider);
         return options;
     }

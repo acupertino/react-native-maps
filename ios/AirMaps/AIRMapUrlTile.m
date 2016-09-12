@@ -25,6 +25,8 @@
 {
     if (!_urlTemplateSet) return;
     self.tileOverlay = [[MKTileOverlay alloc] initWithURLTemplate:self.urlTemplate];
+    self.tileOverlay.tileSize = CGSizeMake(512, 512);
+    self.tileOverlay.maximumZ = 18;
     self.tileOverlay.canReplaceMapContent = YES;
     self.renderer = [[MKTileOverlayRenderer alloc] initWithTileOverlay:self.tileOverlay];
 }
