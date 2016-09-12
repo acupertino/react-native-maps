@@ -89,13 +89,13 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
     }
 
     @ReactProp(name = "maxZoom")
-    public void setMaxZoom(AirMapView view, Float maxZoom) {
-        view.setMaxZoomPreference(maxZoom);
+    public void setMaxZoom(AirMapView view, float maxZoom) {
+        view.setMaxZoom(maxZoom);
     }
 
     @ReactProp(name = "minZoom")
-    public void setMinZoom(AirMapView view, Float minZoom) {
-        view.setMinZoomPreference(minZoom);
+    public void setMinZoom(AirMapView view, float minZoom) {
+        view.setMinZoom(minZoom);
     }
 
     @ReactProp(name = "mapType")
@@ -109,7 +109,7 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
         view.setShowsUserLocation(showUserLocation);
     }
 
-    @ReactProp(name = "showsUserLocationButton", defaultBoolean = false)
+    @ReactProp(name = "showsUserLocationButton", defaultBoolean = true)
     public void setShowsUserLocationButton(AirMapView view, boolean showUserLocationButton) {
         view.setShowsUserLocationButton(showUserLocationButton);
     }

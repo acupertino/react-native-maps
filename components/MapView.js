@@ -53,7 +53,7 @@ const propTypes = {
   /**
    * If `true` the map will focus on the user's location. This only works if
    * `showsUserLocation` is true and the user has shared their location.
-   * Default value is `false`.
+   * Default value is `true`.
    *
    * @platform ios
    */
