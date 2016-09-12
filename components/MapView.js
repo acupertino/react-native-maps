@@ -13,6 +13,7 @@ import MapMarker from './MapMarker';
 import MapPolyline from './MapPolyline';
 import MapPolygon from './MapPolygon';
 import MapCircle from './MapCircle';
+import MapUrlTile from './MapUrlTile';
 import MapCallout from './MapCallout';
 
 const viewConfig = {
@@ -41,12 +42,13 @@ const propTypes = {
   showsUserLocation: PropTypes.bool,
 
   /**
-   * If `false` hide the button to move map to the current user's location.
-   * Default value is `true`.
+   * If `true` the user location button will be shown in the right corner of the map.
+   * Default value is `false`. This only works if
+   * `showsUserLocation` is true and the user has shared their location.
    *
    * @platform android
    */
-  showsMyLocationButton: PropTypes.bool,
+  showsUserLocationButton: PropTypes.bool,
 
   /**
    * If `true` the map will focus on the user's location. This only works if
@@ -170,12 +172,14 @@ const propTypes = {
    * - satellite: satellite view
    * - hybrid: satellite view with roads and points of interest overlayed
    * - terrain: (Android only) topographic view
+   * - none: (Android only) no base map. Use when rendering your own tiles with <MapView.UrlTile />
    */
   mapType: PropTypes.oneOf([
     'standard',
     'satellite',
     'hybrid',
     'terrain',
+    'none',
   ]),
 
   /**
@@ -234,7 +238,21 @@ const propTypes = {
    *
    * @platform ios
    */
-  minDelta: PropTypes.number,
+  minDelta: PropTypes.number
+
+  /**
+  * Maximum zoom.
+  *
+  * @platform android
+  */
+  maxZoom: PropTypes.number,
+
+  /**
+   * Minimum zoom.
+   *
+   * @platform android
+   */
+  minZoom: PropTypes.number,
 
   /**
    * Insets for the map's legal label, originally at bottom left of the map.
@@ -481,6 +499,7 @@ MapView.Marker = MapMarker;
 MapView.Polyline = MapPolyline;
 MapView.Polygon = MapPolygon;
 MapView.Circle = MapCircle;
+MapView.UrlTile = MapUrlTile;
 MapView.Callout = MapCallout;
 
 MapView.Animated = Animated.createAnimatedComponent(MapView);
