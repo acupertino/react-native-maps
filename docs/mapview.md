@@ -9,6 +9,7 @@
 | `mapType` | `String` | `"standard"` | The map type to be displayed. <br/><br/> - standard: standard road map (default)<br/> - satellite: satellite view<br/> - hybrid: satellite view with roads and points of interest overlayed<br/> - terrain: (Android only) topographic view
 | `showsUserLocation` | `Boolean` | `false` | If `true` the app will ask for the user's location. **NOTE**: You need to add `NSLocationWhenInUseUsageDescription` key in Info.plist to enable geolocation, otherwise it is going to *fail silently*!
 | `showsUserLocationButton` | `Boolean` | `true` | (Android only) If `true` the user location button will be shown in the right corner of the map. Default value is `false`. This only works if  `showsUserLocation` is true and the user has shared their location.
+| `showsMyLocationButton` | `Boolean` | `true` | `Android only` If `false` hide the button to move map to the current user's location.
 | `followsUserLocation` | `Boolean` | `false` | If `true` the map will focus on the user's location. This only works if `showsUserLocation` is true and the user has shared their location. **Note**: iOS only.
 | `showsPointsOfInterest` | `Boolean` | `true` | If `false` points of interest won't be displayed on the map.
 | `showsCompass` | `Boolean` | `true` | If `false` compass won't be displayed on the map.
