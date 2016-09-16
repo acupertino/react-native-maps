@@ -85,7 +85,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     private boolean paused = false;
 
     private final ThemedReactContext context;
-    private final EventDispatcher eventDispatcher
+    private final EventDispatcher eventDispatcher;
 
     public AirMapView(ThemedReactContext context, Context appContext, AirMapManager manager) {
         super(appContext);
@@ -297,7 +297,8 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         try {
             onDestroy();
         } catch (Exception e) {
-            Log.e("AirMapView", e.getMessage());
+            String err = (e.getMessage() == null) ? "Map onDestroy exception" : e.getMessage();
+            Log.e("AirMapView", err);
         }
     }
 
