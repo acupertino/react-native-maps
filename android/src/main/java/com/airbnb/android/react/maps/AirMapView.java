@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.text.TextUtils;
 
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -297,7 +298,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         try {
             onDestroy();
         } catch (Exception e) {
-            String err = (e.getMessage() == null) ? "Map onDestroy exception" : e.getMessage();
+            String err = (TextUtils.isEmpty(e.getMessage())) ? "Map onDestroy exception" : e.getMessage();
             Log.e("AirMapView", err);
         }
     }
