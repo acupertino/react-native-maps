@@ -38,6 +38,7 @@ public class MapsPackage implements ReactPackage {
         AirMapCircleManager circleManager = new AirMapCircleManager(reactContext);
         AirMapUrlTileManager tileManager = new AirMapUrlTileManager(reactContext);
         AirMapManager mapManager = new AirMapManager(reactContext);
+        AirMapLiteManager mapLiteManager = new AirMapLiteManager(reactContext);
 
         return Arrays.<ViewManager>asList(
             calloutManager,
@@ -46,6 +47,7 @@ public class MapsPackage implements ReactPackage {
             polygonManager,
             circleManager,
             tileManager,
+            mapLiteManager,
             mapManager
         );
     }
