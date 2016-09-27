@@ -61,6 +61,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     private Boolean isMapLoaded = false;
     private Integer loadingBackgroundColor = null;
     private Integer loadingIndicatorColor = null;
+    private final int baseMapPadding = 50;
     private LatLngBounds boundsToMove;
     private boolean showUserLocation = false;
     private boolean showUserLocationButton = false;
@@ -522,7 +523,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         }
         if (addedPosition) {
             LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, baseMapPadding);
             if (animated) {
                 startMonitoringRegion();
                 map.animateCamera(cu);
@@ -557,7 +558,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
 
         if (addedPosition) {
             LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, baseMapPadding);
             if (animated) {
                 startMonitoringRegion();
                 map.animateCamera(cu);
