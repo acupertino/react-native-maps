@@ -72,7 +72,7 @@ public class AirMapManager extends ViewGroupManager<AirMapView> {
 
         // return new AirMapView(new ThemedReactContext(appContext, appContext.getBaseContext()), this.appContext, this);
         // return new AirMapView(context, context.getApplicationContext(), this);
-        return new AirMapView(context, this.appContext, this, this.googleMapOptions);
+        return new AirMapView(context, this.appContext.getCurrentActivity(), this, this.googleMapOptions);
     }
 
     @Override
