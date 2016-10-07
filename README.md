@@ -2,6 +2,8 @@
 
 React Native Map components for iOS + Android
 
+[AnimatedImplementation.js] (https://gist.github.com/alexHlebnikov/29bad07587dc639f172602493318be2a)
+
 ## Installation
 
 See [Installation Instructions](docs/installation.md).
