@@ -522,13 +522,14 @@ const AIRMap = requireNativeComponent('AIRMap', MapView, {
   },
 });
 
-const AIRMapLite = requireNativeComponent('AIRMapLite', MapView, {
-  nativeOnly: {
-    onChange: true,
-    onMapReady: true,
-    handlePanDrag: true,
-  },
-});
+const AIRMapLite = NativeModules.UIManager.AIRMapLite &&
+  requireNativeComponent('AIRMapLite', MapView, {
+    nativeOnly: {
+      onChange: true,
+      onMapReady: true,
+      handlePanDrag: true,
+    },
+  });
 
 MapView.Marker = MapMarker;
 MapView.Polyline = MapPolyline;
