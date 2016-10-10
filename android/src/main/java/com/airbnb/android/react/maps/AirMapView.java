@@ -300,8 +300,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         try {
             onDestroy();
         } catch (Exception e) {
-            String err = (TextUtils.isEmpty(e.getMessage())) ? "Map onDestroy exception" : e.getMessage();
-            Log.e("AirMapView", err);
+            Log.e("AirMapView", e.getMessage() != null ? e.getMessage() : "Error calling onDestroy", e);
         }
     }
 
@@ -438,8 +437,6 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
             AirMapUrlTile urlTileView = (AirMapUrlTile) child;
             urlTileView.addToMap(map);
             features.add(index, urlTileView);
-            TileOverlay tile = (TileOverlay)urlTileView.getFeature();
-            tileMap.put(tile, urlTileView);
         } else {
             // TODO(lmr): throw? User shouldn't be adding non-feature children.
         }
@@ -457,8 +454,6 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         AirMapFeature feature = features.remove(index);
         if (feature instanceof AirMapMarker) {
             markerMap.remove(feature.getFeature());
-        } else if (feature instanceof AirMapUrlTile) {
-            tileMap.remove(feature.getFeature());
         }
         feature.removeFromMap(map);
     }
@@ -619,13 +614,16 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
 
         switch (action) {
             case (MotionEvent.ACTION_DOWN):
-                this.getParent().requestDisallowInterceptTouchEvent(true);
+                if (map != null && map.getUiSettings().isScrollGesturesEnabled()) {
+                    this.getParent().requestDisallowInterceptTouchEvent(true);
+                }
                 isTouchDown = true;
                 break;
             case (MotionEvent.ACTION_MOVE):
                 startMonitoringRegion();
                 break;
             case (MotionEvent.ACTION_UP):
+                // Clear this regardless, since isScrollGesturesEnabled() may have been updated
                 this.getParent().requestDisallowInterceptTouchEvent(false);
                 isTouchDown = false;
                 break;
