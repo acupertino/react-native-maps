@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.view.GestureDetector;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -84,16 +83,16 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     private final ScaleGestureDetector scaleDetector;
     private final GestureDetectorCompat gestureDetector;
     private final AirMapManager manager;
-    private LifecycleEventListener lifecycleListener;
     private boolean paused = false;
 
     private final ThemedReactContext context;
     private final EventDispatcher eventDispatcher;
 
-    public AirMapView(ThemedReactContext context, Context appContext, AirMapManager manager, GoogleMapOptions googleMapOptions) {
+    public AirMapView(ThemedReactContext reactContext, Context appContext, AirMapManager manager,
+            GoogleMapOptions googleMapOptions) {
         super(appContext, googleMapOptions);
         this.manager = manager;
-        this.context = context;
+        this.context = reactContext;
 
         super.onCreate(null);
         super.onResume();
@@ -101,7 +100,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
 
         final AirMapView view = this;
         scaleDetector =
-                new ScaleGestureDetector(context, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+                new ScaleGestureDetector(reactContext, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
                     @Override
                     public boolean onScaleBegin(ScaleGestureDetector detector) {
@@ -111,7 +110,7 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         });
 
         gestureDetector =
-                new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
+                new GestureDetectorCompat(reactContext, new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
                         view.startMonitoringRegion();
@@ -132,13 +131,13 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         this.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override public void onLayoutChange(View v, int left, int top, int right, int bottom,
                 int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (!AirMapView.this.paused) {
+                if (!paused) {
                     AirMapView.this.cacheView();
                 }
             }
         });
 
-        eventDispatcher = context.getNativeModule(UIManagerModule.class).getEventDispatcher();
+        eventDispatcher = reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher();
     }
 
     @Override
@@ -245,18 +244,17 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
         // updating location constantly, killing the battery, even though some other location-mgmt
         // module may
         // desire to shut-down location-services.
-        lifecycleListener = new LifecycleEventListener() {
+        LifecycleEventListener lifecycleListener = new LifecycleEventListener() {
             @Override
             public void onHostResume() {
-                if (hasPermissions()) {
-                    //noinspection MissingPermission
-                    map.setMyLocationEnabled(showUserLocation);
-                    map.getUiSettings().setMyLocationButtonEnabled(showUserLocationButton);
-                }
-                synchronized (AirMapView.this) {
-                    AirMapView.this.onResume();
-                    paused = false;
-                }
+              if (hasPermissions()) {
+                //noinspection MissingPermission
+                map.setMyLocationEnabled(showUserLocation);
+              }
+              synchronized (AirMapView.this) {
+                AirMapView.this.onResume();
+                paused = false;
+              }
             }
 
             @Override
@@ -264,17 +262,12 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
                 if (hasPermissions()) {
                     //noinspection MissingPermission
                     map.setMyLocationEnabled(false);
-                    map.getUiSettings().setMyLocationButtonEnabled(false);
                 }
-                synchronized (AirMapView.this) {
-                    AirMapView.this.onPause();
-                    paused = true;
-                }
+                paused = true;
             }
 
             @Override
             public void onHostDestroy() {
-                AirMapView.this.doDestroy();
             }
         };
 
@@ -284,24 +277,6 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     private boolean hasPermissions() {
         return checkSelfPermission(getContext(), PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(getContext(), PERMISSIONS[1]) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    /*
-    onDestroy is final method so I can't override it.
-     */
-    public synchronized void doDestroy() {
-        if (lifecycleListener != null) {
-            context.removeLifecycleEventListener(lifecycleListener);
-            lifecycleListener = null;
-        }
-        if (!paused) {
-            onPause();
-        }
-        try {
-            onDestroy();
-        } catch (Exception e) {
-            Log.e("AirMapView", e.getMessage() != null ? e.getMessage() : "Error calling onDestroy", e);
-        }
     }
 
     public void setRegion(ReadableMap region) {
