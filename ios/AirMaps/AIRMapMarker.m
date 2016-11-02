@@ -211,7 +211,8 @@
         _reloadImageCancellationBlock();
         _reloadImageCancellationBlock = nil;
     }
-    _reloadImageCancellationBlock = [_bridge.imageLoader loadImageWithURLRequest:[RCTConvert NSURLRequest:_imageSrc]
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:imageSrc]];
+      _reloadImageCancellationBlock = [_bridge.imageLoader loadImageWithURLRequest:request
                                                                             size:self.bounds.size
                                                                            scale:RCTScreenScale()
                                                                          clipped:YES
@@ -223,7 +224,7 @@
                                                                          NSLog(@"%@", error);
                                                                      }
                                                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                                                         self.image = image;
+                                                                        self.image = image;
                                                                      });
                                                                  }];
 }
