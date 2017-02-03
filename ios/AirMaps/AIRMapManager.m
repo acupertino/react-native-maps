@@ -403,6 +403,15 @@ RCT_EXPORT_METHOD(takeSnapshot:(nonnull NSNumber *)reactTag
 
 - (MKAnnotationView *)mapView:(__unused AIRMap *)mapView viewForAnnotation:(AIRMapMarker *)marker
 {
+    // выключаем коллаут с текстом "Current Location"
+    if ([marker isKindOfClass:[MKUserLocation class]])
+    {
+        [(MKUserLocation *)marker setTitle:nil];
+        [(MKUserLocation *)marker setSubtitle:nil];
+
+        return nil;
+    }
+
     if (![marker isKindOfClass:[AIRMapMarker class]]) {
         return nil;
     }
@@ -497,6 +506,8 @@ static int kDragCenterContext;
         region.span.longitudeDelta = AIRMapDefaultSpan;
         region.center = location.coordinate;
         [mapView setRegion:region animated:YES];
+        MKAnnotationView *userLocationView = [mapView viewForAnnotation:userLocation];
+        userLocationView.canShowCallout = NO;
 
         // Move to user location only for the first time it loads up.
         // mapView.followUserLocation = NO;
