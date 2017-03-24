@@ -7,19 +7,18 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import "RCTViewManager.h"
 #import "AIRMapManager.h"
 
-#import "RCTBridge.h"
-#import "RCTUIManager.h"
-#import "RCTConvert+CoreLocation.h"
-#import "RCTConvert+MapKit.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTBridge.h>
+#import <React/RCTUIManager.h>
+#import <React/RCTConvert.h>
+#import <React/RCTConvert+CoreLocation.h>
+#import <React/RCTConvert+MapKit.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTViewManager.h>
+#import <React/UIView+React.h>
 #import "AIRMap.h"
-#import "UIView+React.h"
 #import "AIRMapMarker.h"
-#import "RCTViewManager.h"
-#import "RCTConvert.h"
 #import "AIRMapPolyline.h"
 #import "AIRMapPolygon.h"
 #import "AIRMapCircle.h"
