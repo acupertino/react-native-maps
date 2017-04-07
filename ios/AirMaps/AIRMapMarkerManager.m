@@ -114,6 +114,8 @@ RCT_EXPORT_METHOD(hideCallout:(nonnull NSNumber *)reactTag)
 
     if (marker.onPress) marker.onPress(event);
     if (marker.map.onMarkerPress) marker.map.onMarkerPress(event);
+
+    [marker.map selectAnnotation:marker animated:NO];
 }
 
 @end
